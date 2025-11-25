@@ -60,7 +60,7 @@ if __name__ == "__main__":
     )  # SAC example + key args per SB3 docs :contentReference[oaicite:2]{index=2}
 
     model.learn(
-        total_timesteps=100_000,
+        total_timesteps=200_000,
         callback=eval_cb,
         log_interval=10,
         progress_bar=False,
