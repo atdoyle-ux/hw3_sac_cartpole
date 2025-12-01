@@ -87,7 +87,7 @@ def train_for_seed(
 
     # Separate eval env (single, non-vectorized)
     eval_env = make_dmc_cartpole_env(
-        seed=seed, log_dir=eval_log_dir, idx=0, render_mode=None, is_eval=True
+        seed=10, log_dir=eval_log_dir, idx=0, render_mode=None, is_eval=True
     )()
 
     eval_cb = EvalCallback(
@@ -113,10 +113,11 @@ def train_for_seed(
         gradient_steps=1,
         ent_coef="auto",
         target_update_interval=1,
-        policy_kwargs=dict(net_arch=[256, 256]),
+        policy_kwargs=dict(net_arch=[64, 64]),
         verbose=1,
         tensorboard_log=tb_log_dir,
         seed=seed,
+        device="auto",
     )
 
     model.learn(
@@ -277,7 +278,7 @@ def plot_fused_results(
         train_mean - train_std,
         train_mean + train_std,
         alpha=0.2,
-        label="Train ±1 std",
+        label="Train ± std",
     )
 
     # Eval curve
@@ -295,7 +296,7 @@ def plot_fused_results(
         eval_mean - eval_std,
         eval_mean + eval_std,
         alpha=0.2,
-        label="Eval ±1 std",
+        label="Eval ± std",
     )
 
     plt.xlabel("Environment timesteps")
@@ -315,9 +316,9 @@ def plot_fused_results(
 
 if __name__ == "__main__":
     seeds = [0, 1, 2]
-    n_envs = 8
-    total_timesteps = 100_000
-    eval_freq = 1_000
+    n_envs = 1
+    total_timesteps = 80_000
+    eval_freq = 2_000
     root_log_dir = "./logs"
 
     # train_for_seed(...) loop as you already have it
